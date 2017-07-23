@@ -2,14 +2,12 @@
 
 Poker App in JS from Scratch
 
-## Getting Started
-
-This app runs completely in console.logLand for now
-
 ### Prerequisites
 
-Git and a browswer only.
+Git and a browser only.
 you can clone down the html page and run it in any webBrowser. Open devTools to interact.
+The only function you need to run in devTools is dealCards();
+It takes no arguments and lays out the 14 cards of a 3person Hold'em poker Game
 
 
 ## Authors
