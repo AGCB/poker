@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Poker app from Scratch</title>
+  </head>
+  <body>
+<script>
+  console.log('app is running');
+  /*
+    We are going to simulate a 3 person poker game going that can go through multiple rounds.
+    V1-REQUIREMENTS.
+    1- Make a full deck of cards ( as a list of Objects);
+    2- Be able to shuffle the deck of cards completely.
+    3- Deal out the cards to all 3 players
+
+  */
+
+  /* V1-1 Make a full deck of cards ( as a list of Objects)*/
+  //COMPLETED
+  var deckOfCards = [
+    {number: "2",
+     suit: "diamonds"},
+    {number: "3",
+     suit: "diamonds"},
+    {number: "4",
+     suit: "diamonds"},
+    {number: "5",
+     suit: "diamonds"},
+    {number: "6",
+     suit: "diamonds"},
+    {number: "7",
+     suit: "diamonds"},
+    {number: "8",
+     suit: "diamonds"},
+    {number: "9",
+     suit: "diamonds"},
+    {number: "10",
+     suit: "diamonds"},
+    {number: "jack",
+     suit: "diamonds"},
+    {number: "queen",
+     suit: "diamonds"},
+    {number: "king",
+     suit: "diamonds"},
+    {number: "ace",
+     suit: "diamonds"},
+
+     {number: "2",
+      suit: "spades"},
+     {number: "3",
+      suit: "spades"},
+     {number: "4",
+      suit: "spades"},
+     {number: "5",
+      suit: "spades"},
+     {number: "6",
+      suit: "spades"},
+     {number: "7",
+      suit: "spades"},
+     {number: "8",
+      suit: "spades"},
+     {number: "9",
+      suit: "spades"},
+     {number: "10",
+      suit: "spades"},
+     {number: "jack",
+      suit: "spades"},
+     {number: "queen",
+      suit: "spades"},
+     {number: "king",
+      suit: "spades"},
+     {number: "ace",
+      suit: "spades"},
+
+      {number: "2",
+       suit: "clubs"},
+      {number: "3",
+       suit: "clubs"},
+      {number: "4",
+       suit: "clubs"},
+      {number: "5",
+       suit: "clubs"},
+      {number: "6",
+       suit: "clubs"},
+      {number: "7",
+       suit: "clubs"},
+      {number: "8",
+       suit: "clubs"},
+      {number: "9",
+       suit: "clubs"},
+      {number: "10",
+       suit: "clubs"},
+      {number: "jack",
+       suit: "clubs"},
+      {number: "queen",
+       suit: "clubs"},
+      {number: "king",
+       suit: "clubs"},
+      {number: "ace",
+       suit: "clubs"},
+
+       {number: "2",
+        suit: "hearts"},
+       {number: "3",
+        suit: "hearts"},
+       {number: "4",
+        suit: "hearts"},
+       {number: "5",
+        suit: "hearts"},
+       {number: "6",
+        suit: "hearts"},
+       {number: "7",
+        suit: "hearts"},
+       {number: "8",
+        suit: "hearts"},
+       {number: "9",
+        suit: "hearts"},
+       {number: "10",
+        suit: "hearts"},
+       {number: "jack",
+        suit: "hearts"},
+       {number: "queen",
+        suit: "hearts"},
+       {number: "king",
+        suit: "hearts"},
+       {number: "ace",
+        suit: "hearts"},
+
+  ]
+    /* V1-2 Be able to shuffle the deck of cards completely
+    COMPLETED
+      I took the following shuffling method from
+      https://bost.ocks.org/mike/shuffle/
+      which refers to
+      https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+      and is explained elsewhere on the interwebs by
+      https://blog.codinghorror.com/the-danger-of-naivete/
+    */
+  function shuffle(deckOfCards) {
+  var m = deckOfCards.length, t, i;
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = deckOfCards[m];
+    deckOfCards[m] = deckOfCards[i];
+    deckOfCards[i] = t;
+  }
+  return deckOfCards;
+}
+/* V1-3 Deal cards to players*/
+//COMPLETED
+
+function dealCards() {
+  var currentDeckOfCards = shuffle(deckOfCards);
+  //now any round of cards with 3 players will only have 14 cards total.
+  //the rest will end up being trashed.
+  var main14Cards = [];
+  for (var i = 0; i <=14; i++) {
+    main14Cards.push(currentDeckOfCards[i]);
+  }
+  //now I give variable names to each of the main14cards. 
+  //this is only to refer to them more simply in console.logs later.
+  var player1Card1 = main14Cards[0];
+  var player2Card1 = main14Cards[1];
+  var player3Card1 = main14Cards[2];
+  var player1Card2 = main14Cards[3];
+  var player2Card2 = main14Cards[4];
+  var player3Card2 = main14Cards[5];
+  var firstBurn = main14Cards[6];
+  var flop = [main14Cards[7], main14Cards[8], main14Cards[9]]
+  var secondBurn = main14Cards[10];
+  var turn = main14Cards[11];
+  var thirdBurn = main14Cards[12];
+  var river = main14Cards[13];
+
+
+  console.log('This round\s game will be made up of the following 14 cards...' )
+  console.table(main14Cards);
+  console.log('Player1\'s cards will be 1--' + player1Card1.number + ' of ' + player1Card1.suit +
+              ' and 2--'  + player1Card2.number + ' of ' + player1Card2.suit);
+
+  console.log('Player2\'s cards will be 1--' + player2Card1.number + ' of ' + player2Card1.suit +
+                          ' and 2--'  + player2Card2.number + ' of ' + player2Card2.suit);
+
+  console.log('Player3\'s cards will be 1--' + player3Card1.number + ' of ' + player3Card1.suit +
+                                      ' and 2--'  + player3Card2.number + ' of ' + player3Card2.suit);
+
+  console.log('The first burn card will be ' + firstBurn.number + ' of ' + firstBurn.suit);
+  console.log('The flop will be... ');
+  console.table(flop);
+  console.log('The second burn will be ' + secondBurn.number + ' of ' + secondBurn.suit);
+  console.log('The turn will be ' + turn.number + ' of ' + turn.suit);
+  console.log('The third burn will be ' + thirdBurn.number + ' of ' + thirdBurn.suit);
+  console.log('The river will be ' + river.number + ' of ' + river.suit);
+}
+// that's it for version1. 
+</script>
+  </body>
+</html>
