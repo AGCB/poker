@@ -14,7 +14,7 @@ you can clone down the html page and run it in any webBrowser. Open devTools to 
 
 ## Authors
 
-* **AGCB** - *Initial work* - [AGCB](https://github.com/AGCB)
+* **AGCB**- [AGCB](https://github.com/AGCB)
 
 
 ## License
