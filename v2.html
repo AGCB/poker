@@ -11,13 +11,18 @@
     The first version dealt with a poker table with 3 people. This time we will
     make it a table of 10.
 
-    We start a game.... first thing is to determine how many seats are in use..
+    We start a game....
     there will be an object called TABLE.
     every seat will have the following info.
     seatNumber, playerName, chipTotal, potContribution, firstCard,
     secondCard, dealerChip
      */
+     var dealer = [];
+     var nonGarbageCards = [];
      var pot = 0;
+     var playerOrder = [];
+     var playerOrderToDeal = [];
+     var dealerSeatNumber;
      var table = [
       {  seatNumber: 1,
          playerName: 'jim',
@@ -25,7 +30,7 @@
          potContribution: 0,
          firstCard: undefined,
          secondCard: undefined,
-         dealerChip: true,
+         dealerChip: false,
          inCurrentGame: false},
 
       {  seatNumber: 2,
@@ -43,7 +48,7 @@
             potContribution: 0,
             firstCard: undefined,
             secondCard: undefined,
-            dealerChip: false,
+            dealerChip: true,
             inCurrentGame: false},
 
             {  seatNumber: 4,
@@ -239,43 +244,102 @@
 
 
 
-function dealCards() {
-  var currentDeckOfCards = shuffle(deckOfCards);
-}
+
 
 //the game starts by taking an ante from everyone at the table.
-for (var i = 0; i <= table.length-1; i++) {
-    if (table[i].chipTotal > 0) {
-      pot += 1;
-      table[i].chipTotal -= 1;
-      table[i].potContribution += 1;
-      table[i].inCurrentGame = true;
-    }
-}
-// ante's are in folks... how many players do we have.
-function howManyPlayers() {
-  var totalPlayers = 0;
+function takeAnte() {
   for (var i = 0; i <= table.length-1; i++) {
-    if (table[i].inCurrentGame == true) {
-      totalPlayers += 1;
-    }
+      if (table[i].chipTotal > 0) {
+        pot += 1;
+        table[i].chipTotal -= 1;
+        table[i].potContribution += 1;
+        table[i].inCurrentGame = true;
+      }
   }
-  return totalPlayers;
 }
-var totalPlayers = howManyPlayers();
+// ante's are in folks... how many players do we have?
+
 
 //now we know exactly how many cards are going to be needed for the whole game.
 // standard is 1burn 4flop 5burn 6turn 7burn 8river + totalPlayersx2.
+function arrangeCards() {
+  var currentDeckOfCards = shuffle(deckOfCards);
+  var cardsNeeded = (pot*2) + 8;
 
-function howManyCardsNeededToPlay(totalPlayers) {
-  return totalPlayers;
-//in progress.. I got stuck here... I can't get this to work.
-/*
-  my totalPlayers variable is fine but I can't seem to feed it as
-  a parameter to another function. I'm missing something here..
-  to be continued.. 
-*/
+  for (var i = 0; i < cardsNeeded; i++) {
+    nonGarbageCards.push(currentDeckOfCards[i]);
+  }
+  // Now we have the nonGarbageCards separated.
+  // now we have to start after the dealerChip, deal 1 card out to each player
+  // that has anted..
+  // so I'd like to have a new array that was the dealing order of players
+  // this wil stay useful for the entire game as it will be the order
+  // of betting as well.
 }
+
+function determinePlayerOrder() {
+  //get all players in the game onto the playerOrder variable
+  for (var i = 0; i < table.length; i++) {
+    if (table[i].inCurrentGame === true) {
+      playerOrder.push(table[i].playerName);
+    }}
+  //figure out the dealer.
+  for (var i = 0; i < table.length; i++) {
+    if (table[i].dealerChip == true) {
+      dealer.push(table[i].playerName);
+      dealerSeatNumber = table[i].seatNumber;
+    }}
+  // now the playerOrderToDeal is tricky for me.
+  // start with the player right after the dealer.
+    for (var i = dealerSeatNumber; i < table.length; i++) {
+  // if the player has a pot contribution equal to 1,
+    if (table[i].potContribution == 1) {
+  // add their seatNumber to playerOrderToDeal
+  playerOrderToDeal.push(table[i].seatNumber)
+}}
+  // then start at seat1 and do the same until you hit the dealer.
+  // at the end, the dealer should be the last and the player after the dealer should be the first.
+  for (var i = 0; i < dealerSeatNumber; i++) {
+    if (table[i].potContribution == 1) {
+  // add their seatNumber to playerOrderToDeal
+  playerOrderToDeal.push(table[i].seatNumber)
+}}}
+
+//now we need to deal the two hidden cards.
+function dealTwoHiddenCards() {
+  //go through the playerOrderToDeal array
+  for (var i = 0; i < playerOrderToDeal.length; i++) {
+    // make each players first card, the first nonGarbageCards you have
+    table[i].firstCard = nonGarbageCards[i];
+      // then delete that card from the available cards.
+        nonGarbageCards.shift();
+  }
+// now do the same for the second card.
+  for (var i = 0; i < playerOrderToDeal.length; i++) {
+    table[i].secondCard = nonGarbageCards[i];
+    nonGarbageCards.shift();
+  }
+}
+//
+//
+//
+//
+//
+//
+//now lets run through the game..
+takeAnte();
+console.log('We have ' + pot + ' players total of a possible 10.');
+arrangeCards();
+determinePlayerOrder();
+console.log('the players this round will be '+ playerOrder);
+console.log('the dealer this round is ' + dealer);
+console.log('the dealers seat number is ' + dealerSeatNumber);
+console.log('so the actual dealing order will be seat numbers...' + playerOrderToDeal);
+console.log('right now the nonGarbageCards are ...');
+console.table(nonGarbageCards);
+dealTwoHiddenCards();
+console.log('now they are...');
+console.table(nonGarbageCards);
 
 </script>
   </body>
