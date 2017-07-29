@@ -1,4 +1,4 @@
-![](./images/export.png0001.png)
+![](./images/logo.png)
 # Poker
 
 Poker App in JS from Scratch
