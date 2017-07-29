@@ -1,3 +1,4 @@
+![Logo of the project](./images/logo.png)
 # Poker
 
 Poker App in JS from Scratch
