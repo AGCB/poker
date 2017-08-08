@@ -495,7 +495,7 @@ function arrangeCards() {
   var currentDeckOfCards = shuffle(deckOfCards);
   var cardsNeeded = (pot*2) + 8;
 
-  for (var i = 0; i <= cardsNeeded; i++) {
+  for (var i = 0; i < cardsNeeded; i++) {
     nonGarbageCards.push(currentDeckOfCards[i]);
   }
   // Now we have the nonGarbageCards separated.
@@ -535,20 +535,23 @@ function determinePlayerOrder() {
 }}}
 
 //now we need to deal the two hidden cards.
-function dealTwoHiddenCards() {
+function dealFirstHiddenCard() {
   //go through the playerOrderToDeal array
   for (var i = 0; i < playerOrderToDeal.length; i++) {
     // make each players first card, the first nonGarbageCards you have
     table[i].firstCard = nonGarbageCards[i];
       // then delete that card from the available cards.
-        nonGarbageCards.shift();
-  }
-// now do the same for the second card.
-  for (var i = 0; i < playerOrderToDeal.length; i++) {
-    table[i].secondCard = nonGarbageCards[i];
-    nonGarbageCards.shift();
-  }
 }
+  }
+  
+  function dealSecondHiddenCard() {
+  	// now do the same for the second card.
+  for (var i = 0; i < playerOrderToDeal.length; i++) {
+    table[i].secondCard = nonGarbageCards[i+pot];
+  }
+  }
+
+
 //
 //
 //
@@ -560,8 +563,9 @@ takeAnte();
 
 arrangeCards();
 determinePlayerOrder();
-
-dealTwoHiddenCards();
+  
+  dealSecondHiddenCard();
+dealFirstHiddenCard();
 const firstCardXLocations = {
   0: 420,
   1: 190,
@@ -657,45 +661,45 @@ drawTotalPotContributions();
 function drawFirstBurn() {
   context.font = '15 Calibri';
       context.fillStyle = 'red';
-      context.fillText( nonGarbageCards[0].number, 420, 200);
-      context.fillText( nonGarbageCards[0].suit, 420, 220);
+      context.fillText( nonGarbageCards[20].number, 420, 200);
+      context.fillText( nonGarbageCards[20].suit, 420, 220);
 }
 drawFirstBurn();
 
 function drawFlop() {
   context.font = '15 Calibri';
       context.fillStyle = 'red';
-      context.fillText( nonGarbageCards[1].number, 330, 280);
-      context.fillText( nonGarbageCards[1].suit, 330, 300);
+      context.fillText( nonGarbageCards[21].number, 330, 280);
+      context.fillText( nonGarbageCards[21].suit, 330, 300);
 
-      context.fillText( nonGarbageCards[2].number, 420, 320);
-      context.fillText( nonGarbageCards[2].suit, 420, 340);
+      context.fillText( nonGarbageCards[22].number, 420, 320);
+      context.fillText( nonGarbageCards[22].suit, 420, 340);
 
-      context.fillText( nonGarbageCards[3].number, 520, 280);
-      context.fillText( nonGarbageCards[3].suit, 520, 310);
+      context.fillText( nonGarbageCards[23].number, 520, 280);
+      context.fillText( nonGarbageCards[23].suit, 520, 310);
 }
 drawFlop();
 
 function drawSecondBurn() {
-  context.fillText( nonGarbageCards[4].number, 350, 380);
-  context.fillText( nonGarbageCards[4].suit, 350, 410);
+  context.fillText( nonGarbageCards[24].number, 350, 380);
+  context.fillText( nonGarbageCards[24].suit, 350, 410);
 }
 drawSecondBurn();
 
 function drawTurn() {
-  context.fillText( nonGarbageCards[5].number, 480, 380);
-  context.fillText( nonGarbageCards[5].suit, 480, 400);
+  context.fillText( nonGarbageCards[25].number, 480, 380);
+  context.fillText( nonGarbageCards[25].suit, 480, 400);
 }
 drawTurn();
 
 function drawThirdBurn() {
-  context.fillText( nonGarbageCards[6].number, 350, 470);
-  context.fillText( nonGarbageCards[6].suit, 350, 500);
+  context.fillText( nonGarbageCards[26].number, 350, 470);
+  context.fillText( nonGarbageCards[26].suit, 350, 500);
 }
 drawThirdBurn();
 function drawRiver() {
-  context.fillText( nonGarbageCards[7].number, 520, 470);
-  context.fillText( nonGarbageCards[7].suit, 520, 500);
+  context.fillText( nonGarbageCards[27].number, 520, 470);
+  context.fillText( nonGarbageCards[27].suit, 520, 500);
 }
 drawRiver();
 
@@ -753,33 +757,184 @@ drawPlayerChipTotals();
 //5 will be the same for every player, plus 2 hole cards
 // i will have the values only... cuz that should be all I need.
 // 
+// everything of value here is stored in the nonGarbageCards variable
+//0-19 are player cards... 
 
-function whoWon() {
-var ww7 = [nonGarbageCards[1].value,
-           nonGarbageCards[2].value,
-           nonGarbageCards[3].value,
-           nonGarbageCards[5].value,
-           nonGarbageCards[7].value,
-           table[0].firstCard.value,
-           table[0].secondCard.value,
-           ];
-var need5ForRoyalFlush = 0;
-for (var i = 0; i< ww7.length; i++) {
-    if (ww7[i] === 52) {need5ForRoyalFlush +=1;}
-    if (ww7[i] === 48) {need5ForRoyalFlush +=1;}
-    if (ww7[i] === 44) {need5ForRoyalFlush +=1;}
-    if (ww7[i] === 40) {need5ForRoyalFlush +=1;}
-    if (ww7[i] === 36) {need5ForRoyalFlush +=1;}
+
+var player1Values = [ nonGarbageCards[0].value,
+					  nonGarbageCards[10].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player2Values = [ nonGarbageCards[1].value,
+					  nonGarbageCards[11].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player3Values = [ nonGarbageCards[2].value,
+					  nonGarbageCards[12].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player4Values = [ nonGarbageCards[3].value,
+					  nonGarbageCards[13].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player5Values = [ nonGarbageCards[4].value,
+					  nonGarbageCards[14].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player6Values = [ nonGarbageCards[5].value,
+					  nonGarbageCards[15].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player7Values = [ nonGarbageCards[6].value,
+					  nonGarbageCards[16].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player8Values = [ nonGarbageCards[7].value,
+					  nonGarbageCards[17].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player9Values = [ nonGarbageCards[8].value,
+					  nonGarbageCards[18].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player10Values = [ nonGarbageCards[9].value,
+					  nonGarbageCards[19].value,
+					  nonGarbageCards[21].value,
+				  	  nonGarbageCards[22].value,
+				      nonGarbageCards[23].value,
+				      nonGarbageCards[25].value,
+				      nonGarbageCards[27].value,
+];
+
+var player1ValuesSorted = player1Values.sort((a, b) => a - b);
+var player2ValuesSorted = player2Values.sort((a, b) => a - b);
+var player3ValuesSorted = player3Values.sort((a, b) => a - b);
+var player4ValuesSorted = player4Values.sort((a, b) => a - b);
+var player5ValuesSorted = player5Values.sort((a, b) => a - b);
+var player6ValuesSorted = player6Values.sort((a, b) => a - b);
+var player7ValuesSorted = player7Values.sort((a, b) => a - b);
+var player8ValuesSorted = player8Values.sort((a, b) => a - b);
+var player9ValuesSorted = player9Values.sort((a, b) => a - b);
+var player10ValuesSorted = player10Values.sort((a, b) => a - b);
+var finalPlayerHandScores = {
+	/* I am making a score of hands from the top down.
+	1-RoyalFlushDiamonds
+	2-RoyalFlushHearts
+	3-RoyalFlushSpades
+	4-RoyalFlushClubs
+	5-StraightFlushKingDiamonds
+	6-StraightFlushKingHearts
+	7-StraightFlushKingSpades
+	8-StraightFlushKingClubs
+
+	9-StraightFlushQueenDiamonds
+	10-StraightFlushQueenHearts
+	11-StraightFlushQueenSpades
+	12-StraightFlushQueenClubs
+
+	13-StraightFlushJackDiamonds
+	14-StraightFlushJackHearts
+	15-StraightFlushJackSpades
+	16-StraightFlushJackClubs
+
+	17-StraightFlushTenDiamonds
+	18-StraightFlushTenHearts
+	19-StraightFlushTenSpades
+	20-StraightFlushTenClubs
+
+	21-StraightFlushNineDiamonds
+	22-StraightFlushNineHearts
+	23-StraightFlushNineSpades
+	24-StraightFlushNineClubs
+
+	25-StraightFlushEightDiamonds
+	26-StraightFlushEightHearts
+	27-StraightFlushEightSpades
+	28-StraightFlushEightClubs
+
+	29-StraightFlushSevenDiamonds
+	30-StraightFlushSevenHearts
+	31-StraightFlushSevenSpades
+	32-StraightFlushSevenClubs
+
+	33-StraightFlushSixDiamonds
+	34-StraightFlushSixHearts
+	35-StraightFlushSixSpades
+	36-StraightFlushSixClubs
+
+	37-FourOfAKindAces
+	38-FourOfAKindKings
+	39-FourOfAKindQueens
+	40-FourOfAKindJacks
+	41--FourOfAKindTens
+	42-FourOfAKindNines
+	43-FourOfAKindEights
+	44-FourOfAKindSevens
+	45-FourOfAKindSixes
+	46-FourOfAKindFives
+	47-FourOfAKindFours
+	48-FourOfAKindThrees
+	49-FourOfAKindTwos
+
+	//I'm skipping Full houses for now..
+	and this is just rediculous now. I need to put this 
+	project to rest for a while until I learn a bit more.
+	I got up to 49 different card combos and realized that there has 
+	got to be a better way to be judging all of the possible hands.
+  
+  Then I still have to put together the betting rounds.
+
+	*/
 }
-if (need5ForRoyalFlush === 5) {
-  console.log(`${table[i].playerName} got a royalFlush`);
+function playersFinalHands() {
+if (player1ValuesSorted === royalFlushDiamonds){}
 }
-
-};
-whoWon(); 
-
-
-
+playersFinalHands();
 
 
 
