@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>PokerApp V9 from v3</title>
+    <title>PokerApp by AGCB</title>
   </head>
   <body>
 <canvas id="myCanvas" width="900" height="700" style="border:1px solid #000000; background-color: black;">
@@ -850,7 +850,12 @@ var player10Values = [ nonGarbageCards[9].value,
 				      nonGarbageCards[25].value,
 				      nonGarbageCards[27].value,
 ];
-
+/* I had to google how to sort an array properly.
+	The problem with a more intuitive answer is that you
+	end up getting things sorted based off of Unicode value
+	and not proper integer precedence. The below is a stackOverflow
+	solution.
+	*/
 var player1ValuesSorted = player1Values.sort((a, b) => a - b);
 var player2ValuesSorted = player2Values.sort((a, b) => a - b);
 var player3ValuesSorted = player3Values.sort((a, b) => a - b);
@@ -921,21 +926,19 @@ var finalPlayerHandScores = {
 	48-FourOfAKindThrees
 	49-FourOfAKindTwos
 
-	//I'm skipping Full houses for now..
+	skipping full houses for now...
+
+	50-FlushAces
+	51-Flush
+
 	and this is just rediculous now. I need to put this 
 	project to rest for a while until I learn a bit more.
 	I got up to 49 different card combos and realized that there has 
 	got to be a better way to be judging all of the possible hands.
-  
-  Then I still have to put together the betting rounds.
+	I will outline all of my problems specifically in the README.md
 
 	*/
 }
-function playersFinalHands() {
-if (player1ValuesSorted === royalFlushDiamonds){}
-}
-playersFinalHands();
-
 
 
 </script>
