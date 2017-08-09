@@ -10,9 +10,6 @@ you can clone down the html page and run it in any webBrowser. Open devTools to 
 Refreshing your browser shows the cards of a round of Texas Hold'em Poker for a table of 10.
 Burn Cards, Flop, Turn, and River are drawin in the middle
 
-## Authors
-
-* **AGCB**- [AGCB](https://github.com/AGCB)
 
 ## Problems
 * Global space is polluted with all of the variables I've created to do the work.
